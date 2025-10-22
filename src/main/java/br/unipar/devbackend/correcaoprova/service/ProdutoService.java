@@ -19,4 +19,30 @@ public class ProdutoService {
         return produtoRepository.findAll();
     }
 
+    public Produto findById(Long id) {
+        return produtoRepository.findById(id).orElse(null);
+    }
+
+    public Produto create(Produto produto) {
+        return produtoRepository.save(produto);
+    }
+
+    public Produto edit(Long id, Produto produto) {
+        Produto produtoExistente = findById(id);
+        if (produtoExistente != null) {
+            produtoExistente.setNome(produto.getNome());
+            produtoExistente.setPreco(produto.getPreco());
+            return produtoRepository.save(produtoExistente);
+        }
+        return null;
+    }
+
+    public Boolean delete(Long id) {
+        Produto produtoExistente = findById(id);
+        if (produtoExistente != null) {
+            produtoRepository.delete(produtoExistente);
+            return true;
+        }
+        return false;
+    }
 }
